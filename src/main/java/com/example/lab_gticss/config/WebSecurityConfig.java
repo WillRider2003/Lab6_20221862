@@ -56,6 +56,7 @@ public class WebSecurityConfig<HttpSecurity> {
                     }
                 });
 
+        http.logout();
 
         http.authorizeHttpRequests()
                 .requestMatchers("/user","/user/**").hasAnyAuthority("admin","user")
