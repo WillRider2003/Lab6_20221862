@@ -1,12 +1,16 @@
 package com.example.lab_gticss.config;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.sql.DataSource;
 
@@ -44,6 +48,14 @@ public class WebSecurityConfig<HttpSecurity> {
         http.formLogin()
                 .loginPage("/loginForm")
                 .loginProcessingUrl("/processLogin");
+                .successHandler(new AuthenticationSuccessHandler() {
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest request,
+                                                        HttpServletResponse response,
+                                                        Authentication authentication){
+                    }
+                });
+
 
         http.authorizeHttpRequests()
                 .requestMatchers("/user","/user/**").hasAnyAuthority("admin","user")
@@ -53,5 +65,6 @@ public class WebSecurityConfig<HttpSecurity> {
         return http.build();
 
     }
+
 
 }
